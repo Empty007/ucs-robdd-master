@@ -60,6 +60,9 @@
 #include "UCurveToolBoxTest.h"
 #include "UCurveSearchTest.h"
 
+// UCES
+#include "UCESTest.h"
+
 
 // Number of passed and failed tests
 //
@@ -353,6 +356,8 @@ int main(void) {
 	printResult (PosetForestSearchTest::it_should_always_give_the_correct_answer ());
 	cout << endl;
 
+    */	
+
 	// Testing Class "ExhaustiveSearch"
 	cout << "ExhaustiveSearchTest::a_lattice_with_constant_cost_should_be_totally_exausted";
 	cout.flush ();
@@ -367,6 +372,8 @@ int main(void) {
 	cout.flush ();
 	printResult (ExhaustiveSearchTest::it_should_give_the_number_of_the_visited_subsets ());
 	cout << endl;
+
+	/*
 
 	// Testing Class "SFS"
 	cout << "SFSTest::it_should_find_a_local_minimum";
@@ -419,6 +426,7 @@ int main(void) {
 	printResult (VertexTest::a_nonterminal_vertex_should_have_no_value ());
 	cout << endl;*/
 
+/*
 	// Testing Class "ROBDD"
 	cout << "ROBDDTest::a_new_robdd_has_only_a_terminal_node";
 	cout.flush ();
@@ -451,6 +459,7 @@ int main(void) {
 	cout.flush ();
 	printResult (ROBDDTest::it_should_represent_the_same_space_after_reordering ());
 	cout << endl;
+*/
 
 
 	// Testing Class "UCSROBDDToolBox"
@@ -508,16 +517,17 @@ int main(void) {
 	// cout << "UCSROBDD3Test::it_should_always_give_the_correct_answer";
 	// cout.flush ();
 	// printResult (UCSROBDD3Test::it_should_always_give_the_correct_answer ());
-	// cout << endl;
-	
+	// cout << endl
+
+/*
 	// Testing Class "GeneticOrdering"
 	cout << "GeneticOrderingTest::it_should_create_an_initial_population";
 	cout.flush ();
 	printResult (GeneticOrderingTest::it_should_create_an_initial_population ());
-	/*cout << "GeneticOrderingTest::it_should_give_a_better_ordering_robdd";
+	cout << "GeneticOrderingTest::it_should_give_a_better_ordering_robdd";
 	cout.flush ();
 	printResult (GeneticOrderingTest::it_should_give_a_better_ordering_robdd ());
-	cout << endl;*/
+	cout << endl;
 
 
 	// Testing Class "OrderingNode"
@@ -537,7 +547,12 @@ int main(void) {
 	cout.flush ();
 	printResult (OrderingNodeTest::it_should_perform_a_neighbour_mut ());
 	cout << endl;
+*/
 
+    // Testing UCES
+	cout << "UCESTest::check_number_of_minima" << endl;
+	printResult(UCESTest::check_number_of_minima());
+	cout << endl;
 
 	cout << "Total " << number_of_passed_tests + number_of_failed_tests << " test(s), ";
 	cout << number_of_passed_tests << " test(s) passed, " << number_of_failed_tests;
@@ -546,3 +561,4 @@ int main(void) {
 	// End of tests
 	return EXIT_SUCCESS;
 }
+

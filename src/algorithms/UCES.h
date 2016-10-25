@@ -38,9 +38,12 @@ public:
 	//
 	virtual ~UCES();
 
+    // Runs the dfs from a random node searching for the local minima
+    void dfs (ElementSubset *);
 
 	// Runs the UCurve algorithm, getting up to 'max_size_of_minima_list' minimum subsets.
 	//
+    //
 	void get_minima_list(unsigned int);
 
 };
