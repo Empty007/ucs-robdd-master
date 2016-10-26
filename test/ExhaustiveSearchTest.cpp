@@ -37,11 +37,15 @@ namespace ExhaustiveSearchTest
 		string list;
 		es1.set_parameters (&c1, &a_set1, false);
 		es1.get_minima_list (8);
+        es1.print_search_report ();
 		list = es1.print_list_of_minima ();
+        cout << es1.print_search_report () << "\n";
 		es2.set_parameters (&c2, &a_set2, false);
 		es2.get_minima_list (1024);
+        cout << es2.print_search_report () << "\n";
 		es3.set_parameters (&c3, &a_set3, false);
 		es3.get_minima_list (2);
+        cout << es3.print_search_report () << "\n";
 		if ((list.find ("<000>") != string::npos) &&
 		    (list.find ("<001>") != string::npos) &&
 		    (list.find ("<010>") != string::npos) &&

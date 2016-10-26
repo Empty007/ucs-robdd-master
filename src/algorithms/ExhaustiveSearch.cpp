@@ -47,8 +47,10 @@ void ExhaustiveSearch::get_minima_list (unsigned int max_size_of_minima_list)
 
 	X.set_empty_subset (); // X starts with empty set
 
+    int cnt = 0;
 	do  // Amortized time per iteration is O(1) + O(f(n))
 	{
+        cnt++;
 		i = 0;
 		while ((i < n) && (X.has_element (i)))
 		{
@@ -62,11 +64,14 @@ void ExhaustiveSearch::get_minima_list (unsigned int max_size_of_minima_list)
 			list_of_visited_subsets->add_subset (&X);
 
 		X.cost = cost_function->cost (&X);  // O(f(n))
+        cout << X.print_subset () <<  "cost: " << X.cost << endl;
 		Y = new ElementSubset ("", set);
 		Y->copy (&X);
 		list_of_minima.push_back (Y);
 	}
 	while ( (i < n) && (!cost_function->has_reached_threshold ()) );
+//    cout << cnt << endl;
+//
 
 	clean_list_of_minima (max_size_of_minima_list);
 

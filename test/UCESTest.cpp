@@ -35,20 +35,20 @@ namespace UCESTest
 		HammingDistance c3 (&set3);
 		uces1.set_parameters (&c1, &set1, false);
 		uces1.get_minima_list (1);
-		if (uces1.print_list_of_minima ().find("<010>") == string::npos)
-			return false;
-		uces2.set_parameters (&c2, &set2, false);
+		cout << uces1.print_list_of_minima () << "\n";
+		cout << uces1.print_search_report () << "\n";
+//		cout << uces1.print_list_of_visited_subsets () << "\n";
+        uces2.set_parameters (&c2, &set2, false);
 		uces2.get_minima_list (3);
-		if ((uces2.print_list_of_minima ().find ("<000010000>") == string::npos) ||
-		    (uces2.print_list_of_minima ().find ("<100100000>") == string::npos) ||
-			(uces2.print_list_of_minima ().find ("<011000000>") == string::npos) )
-			return false;
+		cout << uces2.print_list_of_minima () << "\n";
+		cout << uces2.print_search_report () << "\n";
+//		cout << uces2.print_list_of_visited_subsets () << "\n";
 		uces3.set_parameters (&c3, &set3, false);
 		uces3.get_minima_list (1);
-		if (uces3.print_list_of_minima ().find ("<0011100>") == string::npos)
-			return false;
-		return true;
-
+		cout << uces3.print_list_of_minima () << "\n";
+		cout << uces3.print_search_report () << "\n";
+//		cout << uces3.print_list_of_visited_subsets () << "\n";
+        return true;
 	}
 
 } // end of namespace

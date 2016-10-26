@@ -165,6 +165,7 @@ void ElementSubset::copy (ElementSubset * Y)
 		if (! Y->has_element (i))
 			remove_element (i);
 	cost = Y->cost;
+    cout << cost << " " << Y->cost << endl;
 }
 
 

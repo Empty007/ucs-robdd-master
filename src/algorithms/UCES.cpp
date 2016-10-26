@@ -36,6 +36,7 @@ UCES::~UCES ()
 //
 void UCES::dfs (ElementSubset * X) {
     X->cost = cost_function->cost (X);  
+//    cout << "X cost = " << X->cost << endl;
 
 	int n = set->get_set_cardinality ();
 
@@ -47,7 +48,7 @@ void UCES::dfs (ElementSubset * X) {
     for (int j = 0; j < n; j++) {
         Neighbors[j] = false;
         Y = new ElementSubset ("", set);
-        Y->copy(X);
+//        Y->copy(X);
         if (X->has_element(j)) 
             Y->remove_element(j);
         else 
@@ -55,6 +56,7 @@ void UCES::dfs (ElementSubset * X) {
 
 
         Y->cost = cost_function->cost (Y);
+//        cout << "Y cost = " << Y->cost << endl;
         if (Y->cost < X->cost) {
             cntneighbors++;
             Neighbors[j] = true;
