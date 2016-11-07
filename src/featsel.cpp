@@ -56,10 +56,31 @@ int parse_parameters
 	 unsigned int *);
 
 
+unsigned long mix(unsigned long a, unsigned long b, unsigned long c) //random generator
+{
+    a=a-b;  a=a-c;  a=a^(c >> 13);
+    b=b-c;  b=b-a;  b=b^(a << 8);
+    c=c-a;  c=c-b;  c=c^(b >> 13);
+    a=a-b;  a=a-c;  a=a^(c >> 12);
+    b=b-c;  b=b-a;  b=b^(a << 16);
+    c=c-a;  c=c-b;  c=c^(b >> 5);
+    a=a-b;  a=a-c;  a=a^(c >> 3);
+    b=b-c;  b=b-a;  b=b^(a << 10);
+    c=c-a;  c=c-b;  c=c^(b >> 15);
+    return c;
+}
+
+
+
 // The main function.
 //
 int main(int argc, char * argv[])
 {
+    //random generator
+    unsigned long seed = mix(clock(), time(NULL), getpid());
+    srand(seed);
+    //end random generator
+
 	unsigned int max_number_of_minima = 1;
 	unsigned int n = 3;
 	unsigned int range = 1000;

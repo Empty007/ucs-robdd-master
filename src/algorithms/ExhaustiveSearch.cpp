@@ -64,7 +64,7 @@ void ExhaustiveSearch::get_minima_list (unsigned int max_size_of_minima_list)
 			list_of_visited_subsets->add_subset (&X);
 
 		X.cost = cost_function->cost (&X);  // O(f(n))
-        cout << X.print_subset () <<  "cost: " << X.cost << endl;
+//        cout << X.print_subset () <<  "cost: " << X.cost << endl;
 		Y = new ElementSubset ("", set);
 		Y->copy (&X);
 		list_of_minima.push_back (Y);

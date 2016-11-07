@@ -30,6 +30,8 @@ namespace UCESTest
 
 	bool check_number_of_minima();
 
+    bool check_results();
+
 }
 
 #endif /* UCESTEST_H_ */

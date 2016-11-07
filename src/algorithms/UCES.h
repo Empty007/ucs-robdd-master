@@ -46,6 +46,8 @@ public:
     //
 	void get_minima_list(unsigned int);
 
+	void get_steps (vector <int>&, vector <int>&, unsigned int);
+
 };
 
 #endif /* UCES_H_ */

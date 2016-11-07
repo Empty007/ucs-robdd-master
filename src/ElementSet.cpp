@@ -130,7 +130,6 @@ ElementSet::ElementSet (string set_name, unsigned int n, unsigned int range)
 		list_of_elements = new Element*[number_of_elements];
 		if (list_of_elements == 0)
 			cout << "Error in ElementSet: could not allocate memory for elements!" << endl;
-		srand ( (unsigned) time (NULL) );
 		for (i = 0; i < n; i++)
 		{
 			stm.str ("");
@@ -245,7 +244,6 @@ void ElementSet::permute_set ()
 	// PERMUTE-IN-PLACE algorithm
 	for (i = 0; i < n - 1; i++)
 	{
-		srand ( (unsigned) time(NULL) );
 		j = ((unsigned int) rand () % (n - i)) + i;   // random number between i and n
 		k = uniform_permutation[i];
 		uniform_permutation[i] = uniform_permutation[j];

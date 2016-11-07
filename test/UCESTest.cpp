@@ -35,20 +35,40 @@ namespace UCESTest
 		HammingDistance c3 (&set3);
 		uces1.set_parameters (&c1, &set1, false);
 		uces1.get_minima_list (1);
-		cout << uces1.print_list_of_minima () << "\n";
-		cout << uces1.print_search_report () << "\n";
+//		cout << uces1.print_list_of_minima () << "\n";
+//		cout << uces1.print_search_report () << "\n";
 //		cout << uces1.print_list_of_visited_subsets () << "\n";
         uces2.set_parameters (&c2, &set2, false);
 		uces2.get_minima_list (3);
-		cout << uces2.print_list_of_minima () << "\n";
-		cout << uces2.print_search_report () << "\n";
+//		cout << uces2.print_list_of_minima () << "\n";
+//		cout << uces2.print_search_report () << "\n";
 //		cout << uces2.print_list_of_visited_subsets () << "\n";
 		uces3.set_parameters (&c3, &set3, false);
 		uces3.get_minima_list (1);
-		cout << uces3.print_list_of_minima () << "\n";
-		cout << uces3.print_search_report () << "\n";
+//		cout << uces3.print_list_of_minima () << "\n";
+//		cout << uces3.print_search_report () << "\n";
 //		cout << uces3.print_list_of_visited_subsets () << "\n";
         return true;
 	}
+
+    bool check_results() {
+        ElementSet set1 ("set", "input/UCSTest13ElementsFileA.xml");
+        ElementSet set2 ("set", "input/UCSTest13ElementsFileB.xml");
+        ElementSet set3 ("set", "input/UCSTest14ElementsFileA.xml");
+		UCES uces1;
+		UCES uces2;
+		UCES uces3;
+		MeanAbsSum c1 (&set1);
+		MeanAbsSum c2 (&set2);
+		MeanAbsSum c3 (&set3);
+		uces1.set_parameters (&c1, &set1, false);
+        vector <int> positions(3), results;
+        positions[0] = 0;
+        positions[1] = 2;
+        positions[2] = 4;
+        uces1.get_steps(results, positions, 1000);
+
+        return true;
+    }
 
 } // end of namespace

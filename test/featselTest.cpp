@@ -83,7 +83,28 @@ void printResult (bool passed)
 	}
 }
 
+unsigned long mix(unsigned long a, unsigned long b, unsigned long c) //random generator
+{
+    a=a-b;  a=a-c;  a=a^(c >> 13);
+    b=b-c;  b=b-a;  b=b^(a << 8);
+    c=c-a;  c=c-b;  c=c^(b >> 13);
+    a=a-b;  a=a-c;  a=a^(c >> 12);
+    b=b-c;  b=b-a;  b=b^(a << 16);
+    c=c-a;  c=c-b;  c=c^(b >> 5);
+    a=a-b;  a=a-c;  a=a^(c >> 3);
+    b=b-c;  b=b-a;  b=b^(a << 10);
+    c=c-a;  c=c-b;  c=c^(b >> 15);
+    return c;
+}
+
+
 int main(void) {
+
+
+    //random generator
+    unsigned long seed = mix(clock(), time(NULL), getpid());
+    srand(seed);
+    //end random generator
 
 	cout << endl << "Starting Unit Tests... " << endl << endl;
 /*
@@ -552,6 +573,10 @@ int main(void) {
     // Testing UCES
 	cout << "UCESTest::check_number_of_minima" << endl;
 	printResult(UCESTest::check_number_of_minima());
+	cout << endl;
+
+	cout << "UCESTest::check_results" << endl;
+	printResult(UCESTest::check_results());
 	cout << endl;
 
 	cout << "Total " << number_of_passed_tests + number_of_failed_tests << " test(s), ";
