@@ -33,8 +33,8 @@ UCES::~UCES ()
 }
 
 // get_minima_list return the local minima, and we run this algorithm n times
-//
-void UCES::dfs (ElementSubset * X) {
+// this returns the number of steps to get to a local minima
+int UCES::dfs (ElementSubset * X) {
 //    cout << "start dfs" << endl;
     X->cost = cost_function->cost (X);  
 //    cout << "X cost = " << X->cost << endl;
@@ -67,7 +67,7 @@ void UCES::dfs (ElementSubset * X) {
     }
 
 //    cout << cntneighbors << endl;
-    if (cntneighbors == 0) return ;
+    if (cntneighbors == 0) return 0;
 
     int aleatory_choose = rand()%cntneighbors;
     int vis = 0;
@@ -86,7 +86,7 @@ void UCES::dfs (ElementSubset * X) {
         vis++;
     }
 ////    cout << "end dfs" << endl;
-    dfs(X);
+    return 1 + dfs(X);
 }
 
 void UCES::get_minima_list (unsigned int max_size_of_minima_list)
@@ -130,53 +130,19 @@ void UCES::get_minima_list (unsigned int max_size_of_minima_list)
 
 }
 
-void UCES::get_steps (vector <int> &results, vector <int> &positions, unsigned int max_size_of_minima_list) {
+//returns the median of steps needed to get to the local minima
+double UCES::get_steps (vector <int> &Costs, vector <int> &results, vector <int> &positions, unsigned int max_size_of_minima_list) {
 
 	timeval begin_program, end_program;
 	gettimeofday (& begin_program, NULL);
 
-
-    // find all the costs and then sort them
-	ElementSubset XX ("XX", set);
-	int i;
 	int n = (int) set->get_set_cardinality ();
 
-    vector <int> Costs;
-
-	XX.set_empty_subset (); // X starts with empty set
-
-    int cnt = 0;
-	do  // Amortized time per iteration is O(1) + O(f(n))
-	{
-        cnt++;
-		i = 0;
-		while ((i < n) && (XX.has_element (i)))
-		{
-			XX.remove_element (i);
-			i++;
-		}
-		if (i < n)
-			XX.add_element (i);
-
-		if (store_visited_subsets)
-			list_of_visited_subsets->add_subset (&XX);
-
-        Costs.push_back(cost_function->cost (&XX));
-//        cout << X.print_subset () <<  "cost: " << X.cost << endl;
-        //add cost
-
-	}
-	while ( (i < n) );
-//    cout << cnt << endl;
-//
-
-    sort(Costs.begin(), Costs.end());
-    
     sort(positions.begin(), positions.end());
 
-    for (i = 0; i < positions.size(); i++) {
-        cout << positions[i] << " " << Costs[i] << "\n";
-    }
+//    for (i = 0; i < positions.size(); i++) {
+//        cout << positions[i] << " " << Costs[i] << "\n";
+//    }
 
     //initiate results
     int max_value = (1<<30); //2^30
@@ -190,27 +156,24 @@ void UCES::get_steps (vector <int> &results, vector <int> &positions, unsigned i
 //        cout << rand()%10000 << endl;
 //    }
 
-    int aleatory_subset;
+    int aleatory_subset, i, sum_steps_needed = 0;
 
-    for (cnt_size_of_minima_list = 0; i < max_size_of_minima_list; i++) {
+    for (cnt_size_of_minima_list = 0; cnt_size_of_minima_list < max_size_of_minima_list; cnt_size_of_minima_list++) {
 
         X = new ElementSubset("X", set);
         X->set_empty_subset (); // X starts with empty set
 
 
-//        for (int k = 0; k < 100; k++) {
-//            cout << rand()%10000 << endl;
-//        }
         aleatory_subset = rand()%(1<<n);
-        cout << cnt_size_of_minima_list << " " << aleatory_subset << endl;
+//        cout << cnt_size_of_minima_list << " " << aleatory_subset << endl;
 
 //        cout << "aleatory " << rand()%1024 << " " << (1<<n) << " " << aleatory_subset << "\n";
-        for (int i = 0; i < n; i++) {
+        for (i = 0; i < n; i++) {
             if (aleatory_subset & (1<<i))
                 X->add_element(i);
         }
 
-        dfs(X);
+        sum_steps_needed += dfs(X);
 
         list_of_minima.push_back (X);
         
@@ -221,15 +184,19 @@ void UCES::get_steps (vector <int> &results, vector <int> &positions, unsigned i
             }
         }
 
-        cnt_size_of_minima_list++;
+//        cout << X->cost << endl;
 
         if (results[0] != max_value) break;
 
     } 
 
-    for (i = 0; i < results.size(); i++) {
-        cout << "position i = " << i << " result = " << results[i] << " cost = " << Costs[i] << endl;
-    }
+    if (cnt_size_of_minima_list != max_size_of_minima_list)
+        cnt_size_of_minima_list++;
+
+
+//    for (i = 0; i < results.size(); i++) {
+//        cout << "position i = " << positions[i] << " result = " << results[i] << " cost = " << Costs[i] << endl;
+//    }
 
 	clean_list_of_minima (max_size_of_minima_list);
 
@@ -241,4 +208,72 @@ void UCES::get_steps (vector <int> &results, vector <int> &positions, unsigned i
 	gettimeofday (& end_program, NULL);
 	elapsed_time_of_the_algorithm = diff_us (end_program, begin_program);
 
+    return sum_steps_needed * 1.0/cnt_size_of_minima_list;
+
 }
+
+int UCES::nLocalMinima (vector <int> &Costs) {
+//    cout << "start dfs" << endl;
+    // find all the costs and then sort them
+	ElementSubset X ("X", set);
+	int i;
+	int n = (int) set->get_set_cardinality ();
+
+	X.set_empty_subset (); // X starts with empty set
+        
+    ElementSubset * Y; 
+
+    int cntMinima = 0;
+	do  // Amortized time per iteration is O(1) + O(f(n))
+	{
+		i = 0;
+		while ((i < n) && (X.has_element (i)))
+		{
+			X.remove_element (i);
+			i++;
+		}
+		if (i < n)
+			X.add_element (i);
+
+		if (store_visited_subsets)
+			list_of_visited_subsets->add_subset (&X);
+
+        X.cost = cost_function->cost (&X);  
+        Costs.push_back(cost_function->cost (&X));
+
+        Y = new ElementSubset("", set);
+
+        int cntneighbors = 0;
+        for (int j = 0; j < n; j++) {
+            Y = new ElementSubset ("", set);
+            Y->copy(&X);
+            if (X.has_element(j)) 
+                Y->remove_element(j);
+            else 
+                Y->add_element(j);
+
+
+            Y->cost = cost_function->cost (Y);
+    //        cout << Y->cost << " " << X->cost << endl;
+    //        cout << "Y cost = " << Y->cost << endl;
+            if (Y->cost >= X.cost) {
+                cntneighbors++;
+            }
+            delete Y;
+        }
+        if (cntneighbors == n)
+            cntMinima++;
+
+//        cout << X.print_subset () <<  "cost: " << X.cost << endl;
+        //add cost
+
+	}
+	while ( (i < n) );
+//    cout << cnt << endl;
+//
+
+    sort(Costs.begin(), Costs.end());
+//    cout << "X cost = " << X->cost << endl;
+    return cntMinima;
+}
+

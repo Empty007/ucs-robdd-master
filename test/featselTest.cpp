@@ -383,9 +383,9 @@ int main(void) {
 //	cout << "ExhaustiveSearchTest::a_lattice_with_constant_cost_should_be_totally_exausted";
 //	cout.flush ();
 //	printResult (ExhaustiveSearchTest::a_lattice_with_constant_cost_should_be_totally_exausted ());
-	cout << "ExhaustiveSearchTest::it_should_find_a_global_minimum";
-	cout.flush ();
-	printResult (ExhaustiveSearchTest::it_should_find_a_global_minimum ());
+//	cout << "ExhaustiveSearchTest::it_should_find_a_global_minimum";
+//	cout.flush ();
+//	printResult (ExhaustiveSearchTest::it_should_find_a_global_minimum ());
 //	cout << "ExhaustiveSearchTest::it_should_store_all_the_visited_subsets";
 //	cout.flush ();
 //	printResult (ExhaustiveSearchTest::it_should_store_all_the_visited_subsets ());
@@ -571,9 +571,9 @@ int main(void) {
 */
 
     // Testing UCES
-	cout << "UCESTest::check_number_of_minima" << endl;
-	printResult(UCESTest::check_number_of_minima());
-	cout << endl;
+//	cout << "UCESTest::check_number_of_minima" << endl;
+//	printResult(UCESTest::check_number_of_minima());
+//	cout << endl;
 
 	cout << "UCESTest::check_results" << endl;
 	printResult(UCESTest::check_results());
