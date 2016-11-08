@@ -58,7 +58,7 @@ namespace UCESTest
 
     bool check_results() {
 
-        int n = 23;
+        int n = 25;
 
         string arr[] = {
         "input/UCS2bTest5ElementsFileA.xml", 
@@ -83,16 +83,18 @@ namespace UCESTest
         "input/UCSTest13ElementsFileB.xml",
         "input/UCSTest14ElementsFileA.xml",
         "input/UCSTest15ElementsFileA.xml",
-        "input/UCSTest17ElementsFileA.xml"
+        "input/UCSTest17ElementsFileA.xml",
+        "input/UCSTest19ElementsFileA.xml",
+        "input/UCSTest21ElementsFileA.xml"
         };
-        vector <string> S(arr, arr+23);
+        vector <string> S(arr, arr+25);
 
         vector <int> positions(5), results;
         positions[0] = 0;
         positions[1] = 1;
         positions[2] = 2;
-        positions[3] = 5;
-        positions[4] = 10;
+        positions[3] = 4;
+        positions[4] = 9;
 
 
         UCES uces;
@@ -101,7 +103,8 @@ namespace UCESTest
             ElementSet pset("set", S[i]);
             MeanAbsSum pc (&pset);
             uces.set_parameters (&pc, &pset, false);
-            int n = pset.get_set_cardinality ();
+            int nset = pset.get_set_cardinality ();
+            cout << "size of the set = " << nset << endl;
             vector <int> Costs;
             int nMinima = uces.nLocalMinima(Costs);
             cout << "number of Local Minima = " << nMinima << endl;
@@ -124,8 +127,8 @@ namespace UCESTest
             double mediaSearchingMinima = media*1.0/iterations;
             cout << "media of searching minima " << mediaSearchingMinima << endl;
             for (int j = 0; j < nresults; j++) {
-                double muT = nMinima*1.0/(1<<n);
-                double epsilon = (positions[j]+1)*1.0/(1<<n);
+                double muT = nMinima*1.0/(1<<nset);
+                double epsilon = (positions[j]+1)*1.0/(1<<nset);
                 double log1d = log(1.0/0.001); //delta 0.1%, 1-delta = 99.9%
                 double lowerbound = muT/epsilon*log1d;
                 double upperbound = 1.0/epsilon*log1d;
