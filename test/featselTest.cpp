@@ -575,8 +575,12 @@ int main(void) {
 //	printResult(UCESTest::check_number_of_minima());
 //	cout << endl;
 
-	cout << "UCESTest::check_results" << endl;
-	printResult(UCESTest::check_results());
+//	cout << "UCESTest::check_results" << endl;
+//	printResult(UCESTest::check_results());
+//	cout << endl;
+
+	cout << "UCESTest::check_results 2" << endl;
+	printResult(UCESTest::check_results2());
 	cout << endl;
 
 	cout << "Total " << number_of_passed_tests + number_of_failed_tests << " test(s), ";

@@ -87,7 +87,7 @@ namespace UCESTest
         "input/UCSTest19ElementsFileA.xml",
         "input/UCSTest21ElementsFileA.xml"
         };
-        vector <string> S(arr, arr+25);
+        vector <string> S(arr, arr+n);
 
         vector <int> positions(5), results;
         positions[0] = 0;
@@ -102,6 +102,107 @@ namespace UCESTest
             cout << S[i] << endl;
             ElementSet pset("set", S[i]);
             MeanAbsSum pc (&pset);
+            uces.set_parameters (&pc, &pset, false);
+            int nset = pset.get_set_cardinality ();
+            cout << "size of the set = " << nset << endl;
+            vector <int> Costs;
+            int nMinima = uces.nLocalMinima(Costs);
+            cout << "number of Local Minima = " << nMinima << endl;
+            double media = 0;
+            int iterations = 20, nresults = positions.size();
+            vector <double> mediaResults(nresults, 0.0);
+            for (int j = 0; j < iterations; j++) {
+                media += uces.get_steps(Costs, results, positions, 1000);
+                for (int k = 0; k < nresults; k++) {
+                    mediaResults[k] += results[k];
+                }
+            }
+
+            for (int k = 0; k < nresults; k++) {
+                mediaResults[k] /= iterations;
+//                cout << "Media of results position = " << positions[k]+1 << " result = " << mediaResults[k] << endl;
+            }
+
+
+            double mediaSearchingMinima = media*1.0/iterations;
+            cout << "media of searching minima " << mediaSearchingMinima << endl;
+            for (int j = 0; j < nresults; j++) {
+                double muT = nMinima*1.0/(1<<nset);
+                double epsilon = (positions[j]+1)*1.0/(1<<nset);
+                double log1d = log(1.0/0.001); //delta 0.1%, 1-delta = 99.9%
+                double lowerbound = muT/epsilon*log1d;
+                double upperbound = 1.0/epsilon*log1d;
+                cout << "Expected values for position=" << positions[j]+1 << 
+                    ", lower bound= " << lowerbound << 
+                    ", upper bound= " << upperbound << 
+                    ", media real value = " << mediaResults[j] << 
+                    ", media of nodes visited = " << mediaResults[j]*mediaSearchingMinima << endl;
+            }
+        }
+        
+//        ElementSet set1 ("set", "input/UCSTest13ElementsFileA.xml");
+//        ElementSet set2 ("set", "input/UCSTest13ElementsFileB.xml");
+//        ElementSet set3 ("set", "input/UCSTest14ElementsFileA.xml");
+//		UCES uces1;
+//		UCES uces2;
+//		UCES uces3;
+//		MeanAbsSum c1 (&set1);
+//		MeanAbsSum c2 (&set2);
+//		MeanAbsSum c3 (&set3);
+//		uces1.set_parameters (&c1, &set1, false);
+//        uces1.get_steps(results, positions, 1000);
+//        uces1.set_parameters(&c2, &set2, false);
+//        uces1.get_steps(results, positions, 1000);
+
+        return true;
+    }
+
+    bool check_results2() {
+
+        int n = 25;
+
+        string arr[] = {
+        "input/UCS2bTest5ElementsFileA.xml", 
+        "input/UCS2bTest5ElementsFileB.xml",
+        "input/UCS2bTest6ElementsFileA.xml",
+        "input/UCS2bTest6ElementsFileB.xml",
+        "input/UCS2bTest9ElementsFileA.xml",
+        "input/UCSTest4ElementsFileA.xml",
+        "input/UCSTest4ElementsFileB.xml", 
+        "input/UCSTest5ElementsFileA.xml",
+        "input/UCSTest6ElementsFileA.xml",
+        "input/UCSTest6ElementsFileB.xml",
+        "input/UCSTest7ElementsFileA.xml",
+        "input/UCSTest7ElementsFileB.xml",
+        "input/UCSTest7ElementsFileC.xml",
+        "input/UCSTest7ElementsFileD.xml",
+        "input/UCSTest9ElementsFileA.xml",
+        "input/UCSTest9ElementsFileB.xml",
+        "input/UCSTest10ElementsFileA.xml",
+        "input/UCSTest11ElementsFileA.xml",
+        "input/UCSTest13ElementsFileA.xml",
+        "input/UCSTest13ElementsFileB.xml",
+        "input/UCSTest14ElementsFileA.xml",
+        "input/UCSTest15ElementsFileA.xml",
+        "input/UCSTest17ElementsFileA.xml",
+        "input/UCSTest19ElementsFileA.xml",
+        "input/UCSTest21ElementsFileA.xml"
+        };
+        vector <string> S(arr, arr+n);
+
+        vector <int> positions(5), results;
+        positions[0] = 0;
+        positions[1] = 1;
+        positions[2] = 2;
+        positions[3] = 4;
+        positions[4] = 9;
+
+
+        UCES uces;
+        for (int i = 0; i < n; i++) {
+            cout << S[i] << endl;
+            ElementSet pset("set", S[i]);
+            HammingDistance pc (&pset);
             uces.set_parameters (&pc, &pset, false);
             int nset = pset.get_set_cardinality ();
             cout << "size of the set = " << nset << endl;
